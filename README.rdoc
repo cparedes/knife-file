@@ -1,0 +1,30 @@
+= Knife File
+This plugin contains various file based utilities for manipulating files in
+a Chef repository.  Right now, you can encrypt and decrypt .json files in
+place, without first uploading to a Chef server (which is useful for generating
+encrypted files for a repository.)
+
+These commands will output to stdout.  If you want to get a nice JSON file from
+the command, use -Fj in the command line options, and pipe to a file.
+
+== Installation
+This plugin is distributed as a Ruby Gem. To install it, run:
+  gem install knife-file
+Depending on your system configuration, you may need to run this command with
+root privileges.
+
+== Configuration
+None needed - just be sure to provide a secret word or a secret key file.
+
+== Usage
+Encrypting a file with a secret keyword:
+
+knife file encrypt FILE --secret KEYWORD
+
+Encrypting a file with a secret key file:
+
+knife file encrypt FILE --secret-file path/to/file
+
+Decrypt a file with a secret key file, and output in JSON to a file:
+
+knife file decrypt FILE --secret-file path/to/file -Fj > foobar.json
