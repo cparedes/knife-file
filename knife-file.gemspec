@@ -1,4 +1,5 @@
-$:.unshift(File.dirname(__FILE__) + '/lib')
+# -*- encoding: utf-8 -*-
+$:.push File.expand_path("../lib", __FILE__)
 require 'knife-file/version'
 
 Gem::Specification.new do |s|
@@ -13,7 +14,9 @@ Gem::Specification.new do |s|
   s.email = "cp@redbluemagenta.com"
   s.homepage = "http://redbluemagenta.com"
 
+  s.files         = `git ls-files`.split("\n")
+  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.add_dependency "chef", ">= 0.9.14"
-  s.require_path = 'lib'
-  s.files = %w(LICENSE README.rdoc) + Dir.glob("lib/**/*")
+  s.require_paths = ['lib']
 end

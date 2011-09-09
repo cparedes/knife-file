@@ -18,17 +18,12 @@
 # limitations under the License.
 #
 
-require 'rubygems'
-require 'rake/gempackagetask'
+require 'bundler'
+Bundler::GemHelper.install_tasks
+
+# require 'rubygems'
+# require 'rake/gempackagetask'
 require 'rake/rdoctask'
-
-GEM_NAME = "knife-file"
-
-spec = eval(File.read("knife-file.gemspec"))
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-end
 
 begin
   require 'sdoc'
@@ -45,14 +40,6 @@ rescue LoadError
   puts "sdoc is not available. (sudo) gem install sdoc to generate rdoc documentation."
 end
 
-task :install => :package do
-  sh %{gem install pkg/#{GEM_NAME}-#{KnifeFile::VERSION} --no-rdoc --no-ri}
-end
-
-task :uninstall do
-  sh %{gem uninstall #{GEM_NAME} -x -v #{KnifeFile::VERSION} }
-end
-
 begin
   require 'rspec/core/rake_task'
 
@@ -66,5 +53,3 @@ begin
 rescue LoadError
   STDERR.puts "\n*** RSpec not available. (sudo) gem install rspec to run unit tests. ***\n\n"
 end
-
-
