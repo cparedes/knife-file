@@ -14,17 +14,23 @@ Depending on your system configuration, you may need to run this command with
 root privileges.
 
 == Configuration
-None needed - just be sure to provide a secret word or a secret key file.
+You can either specify a password or a secret key file in knife.rb by
+adding these configuration options in knife.rb:
+
+knife[:secret] = "password"
+knife[:secret_file] = "path/to/file"
+
+or by specifying them in the command line with --secret or --secret-file.
 
 == Usage
-Encrypting a file with a secret keyword:
+=== Encrypting a file with a secret keyword:
 
 knife file encrypt FILE --secret KEYWORD
 
-Encrypting a file with a secret key file:
+=== Encrypting a file with a secret key file:
 
 knife file encrypt FILE --secret-file path/to/file
 
-Decrypt a file with a secret key file, and output in JSON to a file:
+=== Decrypt a file with a secret key file, and output in JSON to a file:
 
 knife file decrypt FILE --secret-file path/to/file -Fj > foobar.json
