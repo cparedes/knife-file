@@ -17,8 +17,12 @@ root privileges.
 You can either specify a password or a secret key file in knife.rb by
 adding these configuration options in knife.rb:
 
-knife[:secret] = "password"
-knife[:secret_file] = "path/to/file"
+
+  knife[:secret] = "password"
+
+OR
+
+  knife[:secret_file] = "path/to/file"
 
 or by specifying them in the command line with --secret or --secret-file.
 
