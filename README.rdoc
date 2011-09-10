@@ -29,12 +29,12 @@ or by specifying them in the command line with --secret or --secret-file.
 == Usage
 === Encrypting a file with a secret keyword:
 
-knife file encrypt FILE --secret KEYWORD
+  knife file encrypt FILE --secret KEYWORD
 
 === Encrypting a file with a secret key file:
 
-knife file encrypt FILE --secret-file path/to/file
+  knife file encrypt FILE --secret-file path/to/file
 
 === Decrypt a file with a secret key file, and output in JSON to a file:
 
-knife file decrypt FILE --secret-file path/to/file -Fj > foobar.json
+  knife file decrypt FILE --secret-file path/to/file -Fj > foobar.json
