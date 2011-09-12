@@ -20,6 +20,7 @@ class Chef
     class FileCreate < Knife
 
       deps do
+        require 'chef/json_compat'
         require 'chef/encrypted_data_bag_item'
         require 'chef/data_bag'
       end
@@ -52,21 +53,19 @@ class Chef
       end
 
       def run
-        @item_name = @name_args
+        @item_name = @name_args[0]
         if @item_name.nil?
             stdout.puts opt_parser
             exit(1)
         end
 
-        create_object({ "id" => @item_name }, "encrypted_file[#{@item_name}.json]") do |output_user|
-          item = Chef::DataBagItem.from_hash(
-            if use_encryption
-              Chef::EncryptedDataBagItem.encrypt_data_bag_item(output_user, secret)
-            else
-              output_user
-            end)
-          item.data_bag(@item_name)
-          output(format_for_display(item.to_hash))
+        create_object({ "id" => @item_name }, "file[#{@item_name}]") do |output_user|
+          item = if use_encryption
+                   Chef::EncryptedDataBagItem.encrypt_data_bag_item(output_user, read_secret)
+                 else
+                   output_user
+                 end
+          open("#{@item_name}.json", "w")  { |f| f.write(JSON.pretty_generate(item)) }
         end
       end
     end
