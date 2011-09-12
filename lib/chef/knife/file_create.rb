@@ -17,15 +17,14 @@
 
 class Chef
   class Knife
-    class FileEncrypt < Knife
+    class FileCreate < Knife
 
       deps do
-        require 'chef/json_compat'
         require 'chef/encrypted_data_bag_item'
-        require 'chef/knife/core/object_loader'
+        require 'chef/data_bag'
       end
 
-      banner "knife file encrypt FILE [options]"
+      banner "knife file create ITEM [options]"
 
       option :secret,
       :short => "-s SECRET",
@@ -52,24 +51,23 @@ class Chef
         config[:secret] || config[:secret_file]
       end
 
-      def loader
-        @loader ||= Chef::Knife::Core::ObjectLoader.new(Chef::DataBagItem, ui)
-      end
-
       def run
-        if @name_args.size != 1
+        @item_name = @name_args
+        if @item_name.nil?
             stdout.puts opt_parser
             exit(1)
         end
-        @item_path = @name_args[0]
-        if ! use_encryption
-            stdout.puts opt_parser
-            exit(1)
+
+        create_object({ "id" => @item_name }, "encrypted_file[#{@item_name}.json]") do |output_user|
+          item = Chef::DataBagItem.from_hash(
+            if use_encryption
+              Chef::EncryptedDataBagItem.encrypt_data_bag_item(output_user, secret)
+            else
+              output_user
+            end)
+          item.data_bag(@item_name)
+          output(format_for_display(item.to_hash))
         end
-        secret = read_secret
-        item = loader.object_from_file(@item_path)
-        item = Chef::EncryptedDataBagItem.encrypt_data_bag_item(item, secret)
-        output(format_for_display(item.to_hash))
       end
     end
   end
