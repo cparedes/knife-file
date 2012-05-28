@@ -12,6 +12,7 @@ These commands will output to stdout:
 These commands are interactive, and will write to a file by default:
 
 - knife file create
+- knife file edit
 
 == Installation
 This plugin is distributed as a Ruby Gem. To install it, run:
@@ -22,7 +23,7 @@ root privileges.
 == Configuration
 For `knife file encrypt` and `knife file decrypt`, you will need to specify either --secret or --secret-file.
 
-For `knife file create`, --secret/--secret-file is optional.
+For `knife file create` and `knife file edit`, --secret/--secret-file is optional.
 
 == Usage
 === Encrypting a file with a secret keyword
@@ -36,6 +37,10 @@ For `knife file create`, --secret/--secret-file is optional.
 === Decrypt a file with a secret key file, and output in JSON to a file
 
   knife file decrypt FILE --secret-file path/to/file -Fj > foobar.json
+
+=== Decrypt a file with a secret key file, open $EDITOR and save the changed file, encrypted
+
+  knife file edit FILE --secret-file path/to/file
 
 === Create an encrypted file called "test.json" from scratch
 
