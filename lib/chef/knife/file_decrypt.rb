@@ -47,11 +47,21 @@ class Chef
       def decrypt(plain_hash, secret)
         plain_hash.inject({}) do |h, (key, val)|
             h[key] = if key != "id"
-                           Chef::EncryptedDataBagItem.decrypt_value(val, secret)
+                           decrypt_item(val, secret)
                          else
                            val
                          end
             h
+        end
+      end
+
+      def decrypt_item(item, secret)
+        # This API changed in 10.18.0 and 11.0 -- See:
+        # http://tickets.opscode.com/browse/CHEF-3392
+        if Chef::VersionConstraint.new(">= 10.18.0").include?(Chef::VERSION)
+          Chef::EncryptedDataBagItem::Decryptor.for(item, secret).for_decrypted_item
+        else
+          Chef::EncryptedDataBagItem.decrypt_value(item, secret)
         end
       end
 
