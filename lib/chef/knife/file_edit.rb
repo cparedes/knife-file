@@ -36,11 +36,7 @@ class Chef
       end
 
       def loader
-        if use_encryption
-          @loader ||= Chef::Knife::Core::ObjectLoader.new(Chef::EncryptedDataBagItem, ui)
-        else
-          @loader ||= Chef::Knife::Core::ObjectLoader.new(Chef::DataBagItem, ui)
-        end
+        @loader ||= Chef::Knife::Core::ObjectLoader.new(Chef::DataBagItem, ui)
       end
       
       def load_file(file_path)
