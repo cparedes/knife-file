@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.description = s.summary
   s.author = "Christian Paredes"
   s.email = "cp@redbluemagenta.com"
-  s.homepage = "http://redbluemagenta.com"
+  s.homepage = "https://github.com/cparedes/knife-file"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
