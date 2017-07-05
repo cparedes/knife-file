@@ -49,7 +49,7 @@ class Chef
       end
 
       def edit_item(item)
-        output = edit_data(item)
+        output = edit_hash(item)
         if use_encryption
           Chef::EncryptedDataBagItem.encrypt_data_bag_item(output, read_secret).to_hash
         else
